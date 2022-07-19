@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaPaYa</title>
+</head>
+<style>
+    .front__content {
+        display: flex;
+        border-radius: 10px;
+        margin: 0 auto;
+        height: 600px;
+        min-width: 100vh;
+        top: 50px;
+        box-shadow: 0.3px 0.3px 0.3px -1px;
+        margin-bottom: 40px;
+    }
+
+    /* 아티스트 차트 순위 */
+
+    .artist_chart,
+    .track_chart {
+        background-color: #fff;
+        margin: 10px;
+        border: 5px solid black;
+        border-radius: 16px;
+        width: 50%;
+        height: 96%;
+        padding: 8px;
+    }
+
+    .artist_chart li,
+    .track_chart li {
+        list-style: none;
+        border: 3px solid #006494;
+        border-radius: 10px;
+    }
+
+    .chartList {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+
+    .artistCharNumber,
+    .trackCharNumber {
+        display: flex;
+    }
+
+    .artistName,
+    .trackTitle {
+        margin-left: 10px;
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+    }
+
+    .artistName:hover,
+    .trackTitle:hover {
+        color: #3590f3;
+    }
+
+    .artist_name {
+        text-decoration: none !important;
+        color: black;
+    }
+
+    .artist_name:hover {
+        color: #3590f3;
+    }
+
+    .artisTopTitle,
+    .trackTopTitle {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .header__line {
+        height: 3vh;
+        background-color: #00a6fb;
+        border-bottom: 5px solid black;
+        min-width: 100vh;
+        padding: 20px;
+    }
+
+    .header_sub_line {
+        justify-content: space-around;
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 5px solid black;
+        margin-bottom: 30px;
+        min-width: 100vh;
+        background-color: #fff;
+    }
+
+    .logo {
+        font-size: 36px;
+        font-weight: bold;
+        text-decoration: none;
+        color: black;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Nanum+Gothic&family=Noto+Sans+KR:wght@100;300;400;500&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+        min-width: 1000px;
+        font-family: 'Roboto', sans-serif;
+        background-color: #00a6fb;
+    }
+
+    .main_pg {
+        /* display: none; */
+        position: relative;
+        top: 70px;
+        min-height: 100vh;
+        max-width: 1100px;
+        padding: 10px;
+        margin: 0 auto;
+    }
+
+    .heart {
+        color: red;
+        margin-left: 5px;
+    }
+
+    @media (max-width: 1000px) {
+        body {
+            min-width: 1000px;
+        }
+    }
+
+    .pagination {
+        margin: 0 0 10px;
+        min-height: 25px;
+        text-align: center;
+        position: relative;
+        font-size: 0;
+    }
+
+    .pages a,
+    .beforeBtn,
+    .nextBtn {
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        width: 28px;
+        height: 28px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin: 0 4px;
+        text-decoration: none;
+        color: #666;
+        font: normal 12px/26px Tahoma, Helvetica, sans-serif;
+    }
+
+    .pages a:focus,
+    .pages a:active {
+        color: #3590f3;
+        border: 1px solid #3590f3;
+    }
+
+    * {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    #result_page {
+        display: none;
+        position: relative;
+        top: 70px;
+        min-height: 100vh;
+        min-width: 100vh;
+        padding: 10px;
+        margin: 0 auto;
+    }
+
+    .result_content {
+        border-radius: 10px;
+        margin: 0 auto;
+        height: 225px;
+        max-width: 900px;
+        height: 100%;
+        background-color: #f8f7ff;
+        top: 50px;
+        box-shadow: 0.3px 0.3px 0.3px -1px;
+        border: 5px solid black;
+        margin-bottom: 40px;
+        padding: 8px;
+    }
+
+    /* 아티스트 정보 */
+
+    .artistNaming {
+        font-weight: bold;
+    }
+
+    .__artist {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .artist_cover {
+        display: block;
+        width: 150px;
+        border: 5px solid black;
+        float: left;
+        margin-right: 34px;
+        border-radius: 16px;
+    }
+
+    .artist_img {
+        border-radius: 16px;
+        width: 150px;
+        height: 150px;
+    }
+
+    .artist_items {
+        float: left;
+        width: 364px;
+    }
+
+    .artist_items li {
+        list-style: none;
+    }
+
+    .artist_items li span {
+        font-weight: bold;
+    }
+
+    .more_btn {
+        text-decoration: none !important;
+        position: relative;
+        top: 20px;
+        color: #fff;
+        background-color: #3590f3;
+        border: 3px solid black;
+        border-radius: 8px;
+        padding: 8px;
+    }
+
+    /* playlist 부분 */
+
+    .musicContent {
+        border-radius: 10px;
+        margin: 0 auto;
+        max-width: 900px;
+        min-height: 80vh;
+        background-color: #f8f7ff;
+        box-shadow: 0.3px 0.3px 0.3px -1px;
+        border: 5px solid black;
+        margin-bottom: 40px;
+        padding: 8px;
+    }
+
+    .musicList {
+        max-width: 800px;
+        height: 100%;
+        padding: 16px;
+        margin: 0 auto;
+    }
+
+    .list {
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+        border: 4px solid #006494;
+        padding: 8px;
+        margin-bottom: 7px;
+        border-radius: 10px;
+    }
+
+    .albumTitle {
+        display: block;
+        font-weight: bold;
+        color: #181818;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 600px;
+        margin-left: 10px;
+    }
+
+    .albumTitle:hover {
+        color: #3590f3;
+    }
+
+    .numberANDtitle {
+        display: flex;
+    }
+
+    .musicName {
+        list-style: none;
+        text-decoration: none;
+        color: black;
+    }
+
+    /* 비슷한 아티스트 */
+
+    .similar_artist {
+        width: 800px;
+    }
+
+    .similarArtist {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+    }
+
+    .similarArtist:hover {
+        color: #3590f3;
+    }
+
+    .search {
+        min-width: 100vh;
+    }
+
+    #__form {
+        background-color: #fff;
+        border: 5px solid black;
+        max-width: 600px;
+        height: 50px;
+        border-radius: 27px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        position: relative;
+        margin: 0 auto;
+        top: 50px;
+    }
+
+    #__input {
+        all: unset;
+        font: 16px system-ui;
+        color: #aaaaaa;
+        height: 100%;
+        width: 100%;
+        padding: 6px 10px;
+    }
+
+    ::placeholder {
+        color: #aaaaaa;
+        opacity: 0.7;
+    }
+
+    .search__emoji {
+        color: #000;
+        fill: currentColor;
+        width: 24px;
+        height: 24px;
+        padding: 10px;
+    }
+
+    #search__btn {
+        all: unset;
+        cursor: pointer;
+        width: 44px;
+        height: 44px;
+    }
+
+    #searchErrorPg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin: 0 auto;
+        width: 922px;
+        height: 225px;
+        background-color: #f8f7ff;
+        top: 50px;
+        box-shadow: 0.3px 0.3px 0.3px -1px;
+        border: 5px solid black;
+        margin-bottom: 40px;
+        padding: 8px;
+    }
+
+    .errorArea {
+        display: none;
+        min-width: 100vh;
+    }
+
+    #sub__form {
+        background-color: #fff;
+        border-bottom: 2.5px solid black;
+        width: 280px;
+        height: 32px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    #sub__input {
+        all: unset;
+        font: 13px system-ui;
+        color: #aaaaaa;
+        height: 100%;
+        width: 100%;
+        padding: 6px 10px;
+    }
+
+    ::placeholder {
+        color: #aaaaaa;
+        opacity: 0.7;
+    }
+
+    .search__emoji {
+        color: #000;
+        fill: currentColor;
+        width: 24px;
+        height: 24px;
+        padding: 10px;
+    }
+
+    #sub_search__btn {
+        all: unset;
+        cursor: pointer;
+        width: 44px;
+        height: 44px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <!-- 헤더 부분 -->
+        <div class="header__line"></div>
+        <div class="header_sub_line">
+            <a href="#" class="logo" onclick="window.location.reload()"><i
+                    class="fa-solid fa-cup-straw drink"></i>PaPaYa</a>
+            <div>
+                <!-- 서브 검색창 -->
+                <form id="sub__form">
+                    <input type="input" id="sub__input" name="q" placeholder="아티스트를 검색하세요."
+                        aria-label="Search through site content">
+                    <button type="button" id="sub_search__btn"><svg class="search__emoji" viewBox="0 0 1024 1024">
+                            <path class="path1"
+                                d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z">
+                            </path>
+                        </svg></button>
+                </form>
+            </div>
+        </div>
+        <div class="search">
+            <!-- 메인 검색창 -->
+            <form id="__form">
+                <input type="input" id="__input" name="q" placeholder="아티스트를 검색하세요."
+                    aria-label="Search through site content">
+                <button type="button" id="search__btn"><svg class="search__emoji" viewBox="0 0 1024 1024">
+                        <path class="path1"
+                            d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z">
+                        </path>
+                    </svg></button>
+            </form>
+        </div>
+        <div class="main">
+
+            <!-- 처음 시작 페이지 -->
+            <div class="main_pg">
+                <div class="front__content">
+
+                    <!-- 아티스트 차트 -->
+                    <ul class="artist_chart">
+                        <div class="artisTopTitle">Artist Chart TOP 10</div>
+
+                    </ul>
+
+                    <!-- 노래 차트 -->
+                    <ul class="track_chart">
+                        <div class="trackTopTitle">Track Chart TOP 10</div>
+
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 검색 결과 페이지 -->
+            <div id="result_page">
+                <div class="result_content">
+                    <div class="__artist">
+                        <div class="artist_cover">
+                            <img class="artist_img" src="https://t1.daumcdn.net/cfile/tistory/243FE450575F82662D">
+                        </div>
+
+
+
+                        <!-- 검색시 아티스트 정보 -->
+                        <div class="artist_information">
+                            <h1 class="artistNaming">
+                                <!-- 이름 부분 -->
+                            </h1>
+                            <ul class="artist_items">
+                                <li>
+                                    <span>데뷔날짜: </span>
+                                    <span class="published">
+                                        <!-- 데뷔 날짜 부분 -->
+                                    </span>
+                                </li>
+                                <li class="similar_artist">
+                                    <span>비슷한 아티스트: </span>
+                                    <a class="similarArtist_one" href="#"></a>
+                                    <a class="similarArtist_two" href="#"></a>
+                                    <a class="similarArtist_three" href="#"></a>
+                                </li>
+                                <li id="detail_area">
+                                    <a href="#" target="_blank" class="more_btn">자세히 보기</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- 검색시 뮤직 리스트 생성 -->
+                <div class="musicContent">
+                    <ul class="musicList">
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 검색결과가 없을때 -->
+            <div class="errorArea">
+                <div id="searchErrorPg">
+                    <h2>"<span class="searchResult"></span>" 에 대한 검색 결과가 없습니다.</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script>
+        const mainInput = document.getElementById("__input"); // main input
+        const mainForm = document.getElementById("__form"); // main form
+
+        const mainPg = document.querySelector(".main_pg");
+        const resultPg = document.getElementById("result_page");
+        const serachArea = document.querySelector(".search");
+
+        const subForm = document.getElementById("sub__form"); // 서브 form
+        const subInput = document.getElementById("sub__input"); // 서브 input
+
+        const searchBtn = document.getElementById("search__btn"); // 메인 검색창 버튼
+        const subSearchBtn = document.getElementById("sub_search__btn"); // 서브 검색창 버튼
+
+
+        mainForm.addEventListener("submit", inputMain);
+        subForm.addEventListener("submit", inputSub);
+
+        searchBtn.addEventListener("click", inputMain);
+        subSearchBtn.addEventListener("click", inputSub);
+
+        chartTopArtist() // 아티스트 차트
+        chartTopTrack() // 트랙 차트
+
+        function inputMain(e) { // 메인 검색창
+            let musicKeyWorld = mainInput.value;
+            addMusicList(e, musicKeyWorld);
+            artistInformaition(musicKeyWorld);
+            similarArtist(musicKeyWorld);
+        }
+
+        function inputSub(e) { // 서브 검색창
+            let musicKeyWorld = subInput.value;
+            $(".list").remove(); // list 중복 생성 방지
+
+            addMusicList(e, musicKeyWorld);
+
+            artistInformaition(musicKeyWorld);
+            similarArtist(musicKeyWorld);
+        }
+
+        // 앨범, 음악 정보
+        // http://ws.audioscrobbler.com/2.0/?method=track.search&track=아이유&api_key=502aca31cb330e8135b04d480caf6a56&format=json
+        function addMusicList(e, musicKeyWorld) {
+            e.preventDefault()
+            musicKeyWorld = musicKeyWorld.replace(" ", "");
+            $.ajax({
+                type: 'GET',
+                url: 'http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + musicKeyWorld + '&api_key=502aca31cb330e8135b04d480caf6a56&format=json',
+            })
+                .done(function (response) {
+                    mainPg.style.display = "none"; // 검색이 되면 메인페이지를 가리고
+                    serachArea.style.display = "none"; // 검색창을 가려준다
+
+                    let musicList = response["results"]["trackmatches"]["track"];
+
+                    // 검색결과가 없을때
+                    if (musicList.length == 0) {
+                        let searchResult = document.querySelector(".searchResult"); // 검색결과
+                        let errorArea = document.querySelector(".errorArea");
+                        errorArea.style.display = "block";
+                        searchResult.innerText = musicKeyWorld;
+                    } else { // 검색결과가 있을때
+                        resultPg.style.display = "block"; // 검색 결과를 보여준다
+                    }
+                    subInput.value = "";
+                    mainInput.value = "";
+
+
+                    let count = 1;
+                    for (let i = 0; i < musicList.length; i++) {
+                        let albumTitle = musicList[i]["name"];
+                        let albumURL = musicList[i]["url"];
+                        let albumLikes = musicList[i]["listeners"];
+
+                        $(".musicList").append(`
+        <li class="list">
+          <div class="numberANDtitle">
+              <span class="number">${i + 1}.</span>
+              <a class="musicName" target="_blank" href="${albumURL}"><span class="albumTitle">${albumTitle}</span></a>
+          </div>
+          <span class="likers"><span class="like">${albumLikes}</span><span class="heart">❤</span>
+        </li>
+        `);
+
+
+                    }
+                });
+        }
+
+        // 비슷한 아티스트
+        function similarArtist(musicKeyWorld) {
+            $.ajax({
+                type: 'GET',
+                url: `http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${musicKeyWorld}&api_key=502aca31cb330e8135b04d480caf6a56&format=json`
+            })
+                .done(function (response) {
+                    let similarArtists = response["similarartists"]["artist"];
+
+                    for (let i = 0; i < 3; i++) {
+                        let similarArtistName = similarArtists[i]["name"];
+                        let similarArtistURL = similarArtists[i]["url"];
+                        if (i == 2) { // 마지막은 "," 안나오게 하기 !
+                            $(".similar_artist").append(`
+        <a class="similarArtist" href="${similarArtistURL}">${similarArtistName}</a>
+        `)
+                        } else {
+                            $(".similar_artist").append(`
+        <a class="similarArtist" href="${similarArtistURL}">${similarArtistName},</a>
+        `)
+                        }
+
+                    }
+                });
+        }
+
+
+        // 아티스트 정보
+        // http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=아이유&api_key=502aca31cb330e8135b04d480caf6a56&format=json
+
+        const artistName = document.querySelector(".artistNaming"); // 이름부분
+        const artistDate = document.querySelector(".date"); // 생년월일 부분
+        const artistPublished = document.querySelector(".published"); // 데뷔 날짜
+        const detailArea = document.getElementById("datail_area"); // 자세히보기 버튼 넣어줄 구역
+
+        function artistInformaition(musicKeyWorld) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + musicKeyWorld + '&api_key=502aca31cb330e8135b04d480caf6a56&format=json'
+            })
+                .done(function (response) {
+                    let artist_publish = response["artist"]["bio"]["published"]; // 데뷔날짜
+                    let artist_name = response["artist"]["name"]; // 이름
+                    let detail_url = response["artist"]["url"]; // url
+
+                    $(".more_btn").attr("href", detail_url); // URL 버튼 href 바꿔주기
+
+                    artistName.innerText = artist_name;
+                    artistPublished.innerText = artist_publish;
+                });
+        }
+
+
+        // 아티스트 차트
+        function chartTopArtist() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=502aca31cb330e8135b04d480caf6a56&format=json'
+            })
+                .done(function (response) {
+                    for (let i = 0; i < 10; i++) {
+                        let artist = response["artists"]["artist"];
+
+                        let topArtistRank = artist[i]["name"];
+                        let artistURL = artist[i]["url"];
+                        let listeners = artist[i]["listeners"];
+                        $(".artist_chart").append(`
+        <li class="chartList">
+            <div class="artistCharNumber">
+              <span class="chart_number">${i + 1}.</span>
+              <a href="${artistURL}" target="_blank" class="artistName">${topArtistRank}</a>
+            </div>
+            <div class="LikersArea">
+            <span class="artistLikers">${listeners}</span><span class="heart">❤</span>
+          </div>
+        </li>
+        `);
+                    }
+
+                });
+        }
+
+        function chartTopTrack() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=502aca31cb330e8135b04d480caf6a56&format=json'
+            })
+                .done(function (response) {
+                    for (let i = 0; i < 10; i++) {
+                        let track = response["tracks"]["track"];
+                        let trackTitle = track[i]["name"];
+                        let trackTitleURL = track[i]["url"];
+
+                        let artistName = track[i]["artist"]["name"];
+                        let artistURL = track[i]["artist"]["url"];
+                        $(".track_chart").append(`
+        <li class="chartList">
+          <div class="trackCharNumber">
+              <span class="chart_number">${i + 1}.</span>
+              <a href="${trackTitleURL}" target="_blank" class="trackTitle">${trackTitle}</a>
+            </div>
+            <div class="informationArea">
+            <a href="${artistURL}" target="_blank" class="artist_name">${artistName}</a>
+          </div>
+        </li>
+        `)
+                    }
+
+                });
+        }
+    </script>
+</body>
+
+</html>
